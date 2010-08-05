@@ -1,6 +1,6 @@
 ANNOTATE = yes
 SOURCES = \
-  twitterstream_status.mli twitterstream_status.ml \
+  twitterstream_message.mli twitterstream_message.ml \
   twitterstream_stream.mli twitterstream_stream.ml
 
 PACKS = lwt json-wheel curl

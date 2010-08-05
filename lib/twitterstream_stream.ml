@@ -37,7 +37,6 @@ let rec fork_http_fetcher' ?(connect_time = 0.) auth url out_fd =
   match Unix.fork () with
     | 0 -> do_http_fetch auth url out_fd; return ()
     | child_pid ->
-        (* Respawn on death. Let's limit reconnects to .*)
         Lwt_unix.waitpid [] child_pid >> 
         let time_left =
           min_reconnect_interval -. (Unix.time () -. connect_time) in
@@ -56,10 +55,7 @@ let fork_http_fetcher auth url =
 let rec push_to_stream push_stream chan =
   try_bind (fun () -> Lwt_io.read_line chan) 
     begin fun line ->
-      begin match Twitterstream_status.of_json_string line with
-        | Some _ as s -> push_stream s
-        | None -> ()
-      end;
+      push_stream (Some (Twitterstream_message.of_json_string line));
       push_to_stream push_stream chan
     end 
     (fun ex (* only on EOF? *) -> push_stream None; return ())
