@@ -1,0 +1,6 @@
+name = "twitterstream"
+version = "1.0"
+description = "OCaml twitter streaming interface" 
+archive(byte) = "twitterstream.cma"
+archive(native) = "twitterstream.cmxa"
+requires = "lwt,unix,lwt.unix,json-wheel,curl"

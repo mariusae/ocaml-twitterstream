@@ -1,0 +1,12 @@
+OCAMLMAKEFILE=OCamlMakefile
+
+SOURCES = fetch.ml
+RESULT = fetch
+PACKS = lwt lwt.unix twitterstream batteries
+
+.PHONY: all
+all: nc
+	@ :
+
+include $(OCAMLMAKEFILE)
+
