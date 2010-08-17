@@ -1,0 +1,2 @@
+<twitterstream_*> : syntax_camlp4o, pkg_lwt, pkg_lwt.syntax, pkg_json-wheel, pkg_curl
+<twitterstream*.cmx>: for-pack(Twitterstream)

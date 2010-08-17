@@ -1,20 +1,28 @@
-makelib:
-	$(MAKE) -C lib/
+FILES=                                 \
+  twitterstream.cma twitterstream.cmxa \
+  twitterstream.a twitterstream.cmi
 
-all: reinstall
-#	$(MAKE) -C lib_test
-	@echo ""
+BFILES=$(addprefix _build/lib/,$(FILES))
 
-install: makelib
-	$(MAKE) -C lib/ libinstall
+.PHONY: all
+all:
+	ocamlbuild -I lib twitterstream.cma twitterstream.cmxa
 
-clean:
-	$(MAKE) -C lib clean
-#	$(MAKE) -C lib_test clean
+.PHONY: all
+doc:
+	ocamlbuild -no-links lib/doc.docdir/index.html
 
-uninstall: makelib
+.PHONY: install
+install: all
+	ocamlfind install twitterstream lib/META $(BFILES)
+
+.PHONY: uninstall
+uninstall:
 	ocamlfind remove twitterstream
 
-reinstall:
-	$(MAKE) uninstall
-	$(MAKE) install
+.PHONY: reinstall
+reinstall: all uninstall install
+
+.PHONY: clean
+clean:
+	ocamlbuild -clean
