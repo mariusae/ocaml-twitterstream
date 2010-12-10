@@ -3,14 +3,15 @@ FILES=                                 \
   twitterstream.a twitterstream.cmi
 
 BFILES=$(addprefix _build/lib/,$(FILES))
+FLAGS=-use-ocamlfind
 
 .PHONY: all
 all:
-	ocamlbuild -I lib twitterstream.cma twitterstream.cmxa
+	ocamlbuild $(FLAGS) -I lib twitterstream.cma twitterstream.cmxa
 
 .PHONY: all
 doc:
-	ocamlbuild -no-links lib/doc.docdir/index.html
+	ocamlbuild $(FLAGS) -no-links lib/doc.docdir/index.html
 
 .PHONY: install
 install: all

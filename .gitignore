@@ -11,3 +11,4 @@
 *.opt
 *.a
 *.cmxa
+_build/
