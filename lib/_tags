@@ -1,3 +1,0 @@
-<twitterstream_*> : syntax(camlp4o), package(lwt), package(lwt.syntax), \
-                    package(json-wheel), package(curl)
-<twitterstream*.cmx>: for-pack(Twitterstream)

@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: da43aa200dc025869c9b434aa582300b)
+# Library twitterstream
+"src": include
+<src/*.ml{,i}>: pkg_lwt.syntax
+<src/*.ml{,i}>: pkg_lwt
+<src/*.ml{,i}>: pkg_json-wheel
+<src/*.ml{,i}>: pkg_curl
+# OASIS_STOP
+
+<src/*.ml{,i}> : syntax_camlp4o

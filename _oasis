@@ -1,0 +1,14 @@
+OASISFormat: 0.2
+Name:        ocaml-twitterstream
+Version:     1.0
+Synopsis:    Twitter Streaming API Library
+Authors:     marius a. eriksen
+License:     BSD3
+Plugins:     StdFiles (0.2), DevFiles (0.2), META (0.2)
+
+Library twitterstream
+  Path:       src
+  BuildTools: ocamlbuild
+  BuildDepends: lwt, lwt.syntax, json-wheel, curl
+  Modules:    Twitterstream_stream, Twitterstream_message
+  

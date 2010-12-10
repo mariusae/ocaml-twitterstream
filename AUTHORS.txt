@@ -1,0 +1,5 @@
+(* OASIS_START *)
+(* DO NOT EDIT (digest: 80e47ed4dc8b46c3ad251227bdf0b762) *)
+Authors of ocaml-twitterstream
+marius a. eriksen
+(* OASIS_STOP *)
