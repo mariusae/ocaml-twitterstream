@@ -19,7 +19,7 @@ module Throttler = Lwt_throttle.Make(
     let hash () = 0
   end)
 
-let url_of_type = function
+let url_of_stream_type = function
   | `Firehose   -> "http://stream.twitter.com/1/statuses/firehose.json"
   | `Sample     -> "http://stream.twitter.com/1/statuses/sample.json"
   | `Custom url -> url
@@ -30,7 +30,7 @@ let stream_of_channel chan =
     return (Twitterstream_message.of_json_string line) in
   Lwt_stream.map_s map_line lines
 
-let connect (user, pass) url_type =
+let connect (user, pass) stream_type =
   let (input, output) = Lwt_io.pipe () in
   let stream = stream_of_channel input in
 
@@ -40,7 +40,7 @@ let connect (user, pass) url_type =
       "Host", "stream.twitter.com";
       "Authorization", "Basic " ^ userpass_str
     ] in
-    let url = url_of_type url_type in
+    let url = url_of_stream_type stream_type in
 
     try_lwt
       Http_client.get_to_chan url ~headers output >> return ()
@@ -55,7 +55,7 @@ let connect (user, pass) url_type =
 
   t, stream
 
-let reconnect policy auth url_type =
+let reconnect policy auth stream_type =
   let stream, push = Lwt_stream.create () in
   let throttler = Throttler.create
     ~rate:policy.max_tries_per_sec
@@ -64,7 +64,7 @@ let reconnect policy auth url_type =
   let rec go state =
     try_lwt
       (* TODO: success resets the tries? *)
-      let (t, stream) = connect auth url_type in
+      let (t, stream) = connect auth stream_type in
       let iter_t = Lwt_stream.iter (fun item -> push (Some item)) stream in
       join [iter_t; t]
     with
@@ -78,4 +78,4 @@ let reconnect policy auth url_type =
 
 let open_stream
   ?(reconnect_policy = {max_tries = 1; max_tries_per_sec = 1})
-  auth stream = reconnect reconnect_policy auth stream
+  auth stream_type = reconnect reconnect_policy auth stream_type
