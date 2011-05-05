@@ -31,3 +31,43 @@ conjuction with other LWT code.
 The first form - `stream_of_channel` - yields an LWT `stream` from an
 arbitrary LWT channel (eg. a streaming dump on disk). The second form
 establishes a new HTTP stream using `Cohttp`.
+
+# Example stream counter.
+
+    open Lwt
+
+    let setup_logging () =
+      let open Lwt_log in
+      default := channel
+        ~close_mode:`Keep
+        ~channel:Lwt_io.stderr
+        ();
+      Section.set_level Section.main Debug
+     
+    let () =
+      setup_logging ();
+     
+      let reconnect_policy =
+        Twitterstream_stream.({max_tries = 2; initial_reconnect_interval = 2.}) in
+     
+      let t, stream =
+        Twitterstream_stream.open_stream
+          ~reconnect_policy ("username", "password") `Firehose in
+     
+      let count = ref 0 in
+     
+      let tt = for_lwt status in stream do
+        let open Twitterstream_message in
+        let _, message = status in 
+        match message with
+          | Status status ->
+              count := !count + 1;
+              if !count mod 1000 = 0 then
+                Lwt_log.info_f "statuses: %d" !count
+              else
+                return ()
+          | Delete _ -> return ()
+          | Parsefail -> return ()
+      done in
+     
+      Lwt_main.run (Lwt.join [t; tt])
