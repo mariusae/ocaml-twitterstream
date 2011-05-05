@@ -19,3 +19,12 @@ Executable fetch
   MainIs: fetch.ml
   CompiledObject:     best
   BuildDepends: twitterstream, lwt, lwt.syntax, lwt.unix
+
+Document "twitterstream"
+  Title: API reference for Twitterstream
+  Type: ocamlbuild (0.2)
+  Install: true
+  InstallDir: $htmldir/api
+  BuildTools: ocamlbuild, ocamldoc
+  XOCamlbuildPath: ./
+  XOCamlbuildLibraries: twitterstream

@@ -1,3 +1,8 @@
+(**
+ Twitter message definitions.
+ @author marius a. eriksen
+ *)
+
 type place = {
   place_id     : string;
   place_type   : [`Neighborhood | `City | `Admin | `Country];

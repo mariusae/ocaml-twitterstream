@@ -37,10 +37,10 @@ let point_of_geo_object = function
 
 let place_type_of_string = function
   | "neighborhood" -> `Neighborhood
-  | "city" -> `City
-  | "admin" -> `Admin
-  | "country" -> `Country
-  | _ -> raise Not_found
+  | "city"         -> `City
+  | "admin"        -> `Admin
+  | "country"      -> `Country
+  | _              -> raise Not_found
 
 let bounding_box_of_place place = 
   match List.assoc "bounding_box" place with
@@ -60,7 +60,8 @@ let place_of_place_object = function
     begin
       try Some {
         place_id = Browse.string (List.assoc "id" place);
-        place_type = place_type_of_string (Browse.string (List.assoc "place_type" place));
+        place_type = place_type_of_string
+          (Browse.string (List.assoc "place_type" place));
         place_name = Browse.string (List.assoc "full_name" place);
         bounding_box = bounding_box_of_place place
       } with Not_found | Json_error _ -> None

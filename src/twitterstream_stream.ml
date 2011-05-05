@@ -78,4 +78,4 @@ let reconnect policy auth url_type =
 
 let open_stream
   ?(reconnect_policy = {max_tries = 1; max_tries_per_sec = 1})
-  auth url_type = reconnect reconnect_policy auth url_type
+  auth stream = reconnect reconnect_policy auth stream
