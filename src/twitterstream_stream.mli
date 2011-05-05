@@ -1,5 +1,5 @@
 (**
- Twitter streaming API client using lwt.
+ Twitter streaming API client using [lwt].
  @author marius a. eriksen
  *)
 
