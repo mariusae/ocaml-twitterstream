@@ -10,7 +10,10 @@ Library twitterstream
   Path:       src
   BuildTools: ocamlbuild
   BuildDepends: lwt, lwt.syntax, json-wheel, cohttp, extlib
-  Modules:    Twitterstream_stream, Twitterstream_message
+  Modules:    
+    Twitterstream_stream,
+    Twitterstream_message,
+    Twitterstream_throttle
 
 Executable fetch
   Path: .

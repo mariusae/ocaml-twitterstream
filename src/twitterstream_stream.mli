@@ -11,8 +11,8 @@ exception Stream_tcp_error
 
 (** Describe a reconnect policy.  *)
 type reconnect_policy = {
-  max_tries         : int;
-  max_tries_per_sec : int;
+  max_tries                  : int;
+  initial_reconnect_interval : float;
 }
 
 (**

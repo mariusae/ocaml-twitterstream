@@ -7,17 +7,9 @@ exception Stream_http_error of int
 exception Stream_tcp_error
 
 type reconnect_policy = {
-  max_tries         : int;
-  max_tries_per_sec : int;
+  max_tries                  : int;
+  initial_reconnect_interval : float;
 }
-
-module Throttler = Lwt_throttle.Make(
-  (* a singleton throttler. *)
-  struct
-    type t = unit
-    let equal () () = true
-    let hash () = 0
-  end)
 
 let url_of_stream_type = function
   | `Firehose   -> "http://stream.twitter.com/1/statuses/firehose.json"
@@ -57,11 +49,10 @@ let connect (user, pass) stream_type =
 
 let reconnect policy auth stream_type =
   let stream, push = Lwt_stream.create () in
-  let throttler = Throttler.create
-    ~rate:policy.max_tries_per_sec
-    ~max:(policy.max_tries_per_sec * policy.max_tries)
-    ~n:1 in
-  let rec go state =
+  let throttle = Twitterstream_throttle.make
+    ~initial_reconnect_interval:policy.initial_reconnect_interval
+    ~max_attempts:policy.max_tries in
+  let rec go throttle =
     try_lwt
       (* TODO: success resets the tries? *)
       let (t, stream) = connect auth stream_type in
@@ -69,13 +60,12 @@ let reconnect policy auth stream_type =
       join [iter_t; t]
     with
       | exc ->
-          if state.max_tries > 1 then
-            Throttler.wait throttler () >>
-            go { state with max_tries = state.max_tries - 1 }
-          else
-            (push None; fail exc)
-  in go policy, stream
+          lwt throttle' = Twitterstream_throttle.wait throttle in
+          match throttle' with
+            | Some throttle' -> go throttle'
+            | None           -> (push None; fail exc)
+  in go throttle, stream
 
 let open_stream
-  ?(reconnect_policy = {max_tries = 1; max_tries_per_sec = 1})
+  ?(reconnect_policy = {max_tries = 1; initial_reconnect_interval = 1.})
   auth stream_type = reconnect reconnect_policy auth stream_type
