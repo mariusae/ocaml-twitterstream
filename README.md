@@ -43,7 +43,7 @@ establishes a new HTTP stream using `Cohttp`.
         ~channel:Lwt_io.stderr
         ();
       Section.set_level Section.main Debug
-     
+
     let () =
       setup_logging ();
      
@@ -55,16 +55,15 @@ establishes a new HTTP stream using `Cohttp`.
      
       let tt = for_lwt status in stream do
         let open Twitterstream_message in
-        let _, message = status in 
+        let orig, message = status in 
         match message with
           | Status status ->
-              count := !count + 1;
-              if !count mod 1000 = 0 then
-                Lwt_log.info_f "statuses: %d" !count
-              else
-                return ()
+              let user = status#user in
+              Lwt_log.info_f "%s(%d): %s"
+                user#screen_name user#followers_count
+                status#text
           | Delete _ -> return ()
-          | Parsefail -> return ()
+          | Parsefail -> Lwt_log.info_f "failed to parse %s" orig 
       done in
-     
+       
       Lwt_main.run (Lwt.join [t; tt])

@@ -9,7 +9,7 @@ Plugins:     StdFiles (0.2), DevFiles (0.2), META (0.2)
 Library twitterstream
   Path:       src
   BuildTools: ocamlbuild
-  BuildDepends: lwt, lwt.syntax, json-wheel, cohttp, extlib
+  BuildDepends: lwt, lwt.syntax, json-wheel, json-static, cohttp, extlib
   Modules:    
     Twitterstream_stream,
     Twitterstream_message,

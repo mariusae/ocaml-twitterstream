@@ -1,8 +1,8 @@
 # OASIS_START
-# DO NOT EDIT (digest: 5f7fa6e5379200da640ba7f953b1d1af)
+# DO NOT EDIT (digest: b4c5c18d9935088e05f09c88ebaae411)
 version = "1.0"
 description = "Twitter Streaming API Library"
-requires = "lwt lwt.syntax json-wheel cohttp extlib"
+requires = "lwt lwt.syntax json-wheel json-static cohttp extlib"
 archive(byte) = "twitterstream.cma"
 archive(native) = "twitterstream.cmxa"
 exists_if = "twitterstream.cma"
