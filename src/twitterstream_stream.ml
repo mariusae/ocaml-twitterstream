@@ -47,11 +47,10 @@ let connect (user, pass) stream_type =
 
   t, stream
 
-let reconnect policy auth stream_type =
+let reconnect max_tries initial_reconnect_interval auth stream_type =
   let stream, push = Lwt_stream.create () in
   let throttle = Twitterstream_throttle.make
-    ~initial_reconnect_interval:policy.initial_reconnect_interval
-    ~max_attempts:policy.max_tries in
+    ~initial_reconnect_interval ~max_attempts:max_tries in
   let rec go throttle =
     try_lwt
       (* TODO: success resets the tries? *)
@@ -67,5 +66,6 @@ let reconnect policy auth stream_type =
   in go throttle, stream
 
 let open_stream
-  ?(reconnect_policy = {max_tries = 1; initial_reconnect_interval = 1.})
-  auth stream_type = reconnect reconnect_policy auth stream_type
+  ?(max_tries = 1) ?(initial_reconnect_interval = 1.)
+  auth stream_type =
+    reconnect max_tries initial_reconnect_interval auth stream_type
