@@ -47,12 +47,9 @@ establishes a new HTTP stream using `Cohttp`.
     let () =
       setup_logging ();
      
-      let reconnect_policy =
-        Twitterstream_stream.({max_tries = 2; initial_reconnect_interval = 2.}) in
-     
       let t, stream =
         Twitterstream_stream.open_stream
-          ~reconnect_policy ("username", "password") `Firehose in
+          ~max_tries:2 ("username", "password") `Firehose in
      
       let count = ref 0 in
      
