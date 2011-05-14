@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: e641f00dff05b23eff01329f2cbfb705) *)
+(* DO NOT EDIT (digest: 85c5a7fd0618721d72ba3ecd1363a2b5) *)
 This is the INSTALL file for the ocaml-twitterstream distribution.
 
 This package uses OASIS to generate its build system. See section OASIS for
@@ -12,10 +12,10 @@ In order to compile this package, you will need:
 * ocaml for all, doc twitterstream
 * findlib
 * lwt
-* json-wheel
-* json-static
-* cohttp
-* extlib
+* json-wheel for library twitterstream
+* json-static for library twitterstream
+* cohttp for library twitterstream
+* extlib for library twitterstream
 
 Installing
 ==========

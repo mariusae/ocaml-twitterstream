@@ -15,13 +15,13 @@ Library twitterstream
     Twitterstream_message,
     Twitterstream_throttle
 
-# Executable fetch
-#   Path: .
-#   Install: false
-#   BuildTools: ocamlbuild
-#   MainIs: fetch.ml
-#   CompiledObject:     best
-#   BuildDepends: twitterstream, lwt, lwt.syntax, lwt.unix
+Executable fetch
+  Path: .
+  Install: false
+  BuildTools: ocamlbuild
+  MainIs: fetch.ml
+  CompiledObject:     best
+  BuildDepends: twitterstream, lwt, lwt.syntax, lwt.unix
 
 Document "twitterstream"
   Title: API reference for Twitterstream

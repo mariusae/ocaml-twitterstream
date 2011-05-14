@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 27e351abe5d27850b7d4602f184ecb67)
+# DO NOT EDIT (digest: 7e28ce2c9a68980b72d15792e81aaa2d)
 # Library twitterstream
 "src": include
 <src/*.ml{,i}>: pkg_lwt.syntax
@@ -8,6 +8,23 @@
 <src/*.ml{,i}>: pkg_json-static
 <src/*.ml{,i}>: pkg_extlib
 <src/*.ml{,i}>: pkg_cohttp
+# Executable fetch
+<fetch.{native,byte}>: use_twitterstream
+<fetch.{native,byte}>: pkg_lwt.unix
+<fetch.{native,byte}>: pkg_lwt.syntax
+<fetch.{native,byte}>: pkg_lwt
+<fetch.{native,byte}>: pkg_json-wheel
+<fetch.{native,byte}>: pkg_json-static
+<fetch.{native,byte}>: pkg_extlib
+<fetch.{native,byte}>: pkg_cohttp
+<*.ml{,i}>: use_twitterstream
+<*.ml{,i}>: pkg_lwt.unix
+<*.ml{,i}>: pkg_lwt.syntax
+<*.ml{,i}>: pkg_lwt
+<*.ml{,i}>: pkg_json-wheel
+<*.ml{,i}>: pkg_json-static
+<*.ml{,i}>: pkg_extlib
+<*.ml{,i}>: pkg_cohttp
 # OASIS_STOP
 
 <src/*.ml{,i}> : syntax_camlp4o
